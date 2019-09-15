@@ -224,6 +224,24 @@
             }
         },
         {
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('virtualMachineName'),'/', 'InstallWebServer')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/',parameters('virtualMachineName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.9",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted Add-WindowsFeature Web-Common-Http"
+                }
+            }
+        },
+        {
             "name": "[variables('diagnosticsStorageAccountName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
