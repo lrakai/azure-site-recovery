@@ -34,6 +34,13 @@
                 "displayName": "Allowed resources"
             }
         },
+        "allowedRecoveryVaultSkus": {
+            "type": "array",
+            "metadata": {
+                "description": "The list of allowed Recovery Services Vault SKUs",
+                "displayName": "Allowed Recovery Services Vault SKUs"
+            }
+        },
         "disallowedActions": {
             "type": "array",
             "metadata": {
@@ -60,6 +67,20 @@
                     }
                 },
                 {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.RecoveryServices/vaults"
+                        },
+                        {
+                            "not": {
+                                "field": "Microsoft.RecoveryServices/vaults/sku.name",
+                                "in": "[parameters('allowedRecoveryVaultSkus')]"
+                            }
+                        }
+                    ]
+                },
+                {
                     "source": "action",
                     "in": "[parameters('disallowedActions')]"
                 }
@@ -83,7 +104,13 @@
                 "Microsoft.Network/networkSecurityGroups",
                 "Microsoft.Network/networkInterfaces",
                 "Microsoft.Compute/virtualMachines",
-                "Microsoft.Compute/virtualMachines/extensions"
+                "Microsoft.Compute/virtualMachines/extensions",
+                "Microsoft.RecoveryServices/vaults"
+            ]
+        },
+        "allowedRecoveryVaultSkus": {
+            "value": [
+                "RS0"
             ]
         },
         "disallowedActions": {
