@@ -103,9 +103,11 @@
                 "Microsoft.Network/virtualNetworks/subnets",
                 "Microsoft.Network/networkSecurityGroups",
                 "Microsoft.Network/networkInterfaces",
+                "Microsoft.Network/publicIPAddresses",
                 "Microsoft.Compute/virtualMachines",
                 "Microsoft.Compute/virtualMachines/extensions",
-                "Microsoft.RecoveryServices/vaults"
+                "Microsoft.RecoveryServices/vaults",
+                "Microsoft.Storage/storageAccounts"
             ]
         },
         "allowedRecoveryVaultSkus": {
