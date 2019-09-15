@@ -1,0 +1,95 @@
+{
+    "permissions": [
+        {
+            "actions": [
+                "*"
+            ],
+            "notActions": [
+                "Microsoft.Authorization/*/Delete",
+                "Microsoft.Authorization/*/Write",
+                "Microsoft.Authorization/elevateAccess/Action",
+                "Microsoft.MarketplaceOrdering/*",
+                "Microsoft.Compute/virtualMachines/write",
+                "Microsoft.Compute/virtualMachines/redeploy/action",
+                "Microsoft.Compute/virtualMachines/generalize/action",
+                "Microsoft.Compute/virtualMachines/capture/action",
+                "Microsoft.Compute/virtualMachines/extensions/write"
+            ]
+        }
+    ],
+    "parameters": {
+        "allowedLocations": {
+            "type": "array",
+            "metadata": {
+                "description": "The list of locations that can be specified when deploying resources",
+                "strongType": "location",
+                "displayName": "Allowed locations"
+            }
+        },
+        "allowedServices": {
+            "type": "array",
+            "metadata": {
+                "description": "The list of Resource Types that are allowed.",
+                "strongType": "type",
+                "displayName": "Allowed resources"
+            }
+        },
+        "disallowedActions": {
+            "type": "array",
+            "metadata": {
+                "description": "The list of actions that are not allowed in the resource group",
+                "displayName": "Disallowed actions"
+            }
+        }
+    },
+    "displayName": "Allowed locations, and services",
+    "description": "This policy restrict the allowed locations, actions, and services.",
+    "policyRule": {
+        "if": {
+            "anyOf": [
+                {
+                    "not": {
+                        "field": "type",
+                        "in": "[parameters('allowedServices')]"
+                    }
+                },
+                {
+                    "not": {
+                        "field": "location",
+                        "in": "[parameters('allowedLocations')]"
+                    }
+                },
+                {
+                    "source": "action",
+                    "in": "[parameters('disallowedActions')]"
+                }
+            ]
+        },
+        "then": {
+            "effect": "deny"
+        }
+    },
+    "parameters_values": {
+        "allowedLocations": {
+            "value": [
+                "WestUS",
+                "EastUS"
+            ]
+        },
+        "allowedServices": {
+            "value": [
+                "Microsoft.Network/virtualNetworks",
+                "Microsoft.Network/virtualNetworks/subnets",
+                "Microsoft.Network/networkSecurityGroups",
+                "Microsoft.Network/networkInterfaces",
+                "Microsoft.Compute/virtualMachines",
+                "Microsoft.Compute/virtualMachines/extensions"
+            ]
+        },
+        "disallowedActions": {
+            "value": [
+                "Microsoft.Compute/availabilitySets/write"
+            ]
+        }
+    }
+}
