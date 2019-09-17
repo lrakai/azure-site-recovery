@@ -2,7 +2,7 @@
 
 Demonstrate the use of Azure Site Recovery in a disaster recovery scenario.
 
-# Getting Started
+## Getting Started
 
 An Azure RM template is included in `infrastructure/` to create the environment:
 
